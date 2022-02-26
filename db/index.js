@@ -70,6 +70,18 @@ async function getAllUsers() {
   }
 }
 
+async function getAllTags() {
+  try {
+    const { rows } = await client.query(`
+      SELECT * FROM tags;
+    `);
+
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getUserById(userId) {
   try {
     const {
@@ -355,6 +367,24 @@ async function getAllTags() {
   }
 }
 
+async function getUserByUsername(username) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM users
+      WHERE username=$1;
+    `,
+      [username]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
 module.exports = {
   client,
   createUser,
@@ -370,4 +400,6 @@ module.exports = {
   getAllTags,
   createPostTag,
   addTagsToPost,
+  getUserByUsername,
+  getAllTags,
 };
