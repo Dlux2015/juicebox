@@ -1,7 +1,8 @@
 const { Client } = require("pg"); // imports the pg module
+const { Access_Code } = process.env;
 
 const client = new Client({
-  password: "Lulu2015!",
+  password: `${Access_Code}`,
   database: "juicebox",
   user: "postgres",
   port: 3099,
@@ -212,6 +213,15 @@ async function getPostById(postId) {
       [postId]
     );
 
+    // THIS IS NEW
+    if (!post) {
+      throw {
+        name: "PostNotFoundError",
+        message: "Could not find a post with that postId",
+      };
+    }
+    // NEWNESS ENDS HERE
+
     const { rows: tags } = await client.query(
       `
       SELECT tags.*
@@ -385,6 +395,7 @@ async function getUserByUsername(username) {
     throw error;
   }
 }
+
 module.exports = {
   client,
   createUser,
@@ -402,4 +413,6 @@ module.exports = {
   addTagsToPost,
   getUserByUsername,
   getAllTags,
+  getPostById,
+  updatePost,
 };
