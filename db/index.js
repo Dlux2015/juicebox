@@ -2,7 +2,7 @@ const { Client } = require("pg"); // imports the pg module
 
 const client = new Client({
   password: "Lulu2015!",
-  database: "postgres",
+  database: "juicebox",
   user: "postgres",
   port: 3099,
 });
