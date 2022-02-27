@@ -1,12 +1,14 @@
 const { Client } = require("pg"); // imports the pg module
 const { Access_Code } = process.env;
 
-const client = new Client({
-  password: `${Access_Code}`,
-  database: "juicebox",
-  user: "postgres",
-  port: 3099,
-});
+const client = new Client(
+  process.env.DATABASE_URL || {
+    password: `${Access_Code}`,
+    database: "juicebox",
+    user: "postgres",
+    port: 3099,
+  }
+);
 
 async function createUser({ username, password, name, location }) {
   try {
